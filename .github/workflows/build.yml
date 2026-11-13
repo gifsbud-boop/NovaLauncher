@@ -1,4 +1,3 @@
-
 name: Build Nova Launcher APK
 
 on:
@@ -22,12 +21,9 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
-          cmdline-tools-version: '12266719'
-          accept-android-sdk-licenses: true
           packages: platform-tools platforms;android-35 build-tools;35.0.0
 
       - name: Set up Gradle
@@ -36,17 +32,14 @@ jobs:
           gradle-version: '8.9'
 
       - name: Extract Nova source
-        run: |
-          unzip -q NovaLauncher-Android-Source-v0.2.zip -d buildsrc
+        run: unzip -q NovaLauncher-Android-Source-v0.2.zip -d buildsrc
 
       - name: Build Nova APK
-        run: |
-          cd buildsrc/NovaLauncher
-          gradle assembleDebug
+        working-directory: buildsrc/NovaLauncher
+        run: gradle assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Nova-Launcher-APK
           path: buildsrc/NovaLauncher/app/build/outputs/apk/debug/app-debug.apk
-          
