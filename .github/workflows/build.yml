@@ -21,8 +21,15 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Android SDK
+            - name: Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 12266719
+          accept-android-sdk-licenses: true
+          packages: |
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
 
       - name: Gradle
         uses: gradle/actions/setup-gradle@v4
